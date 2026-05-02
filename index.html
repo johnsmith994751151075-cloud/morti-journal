@@ -407,6 +407,36 @@
     .down { color: var(--red) !important; }
     .loading { color: var(--muted); font-size: 0.8rem; font-style: italic; }
 
+    /* ── DISCLAIMER ── */
+    .disclaimer-block {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 6px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .disclaimer-tag {
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.06);
+      color: var(--muted);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 3px;
+      padding: 1px 8px;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      margin-top: 2px;
+    }
+    .disclaimer-block p { margin: 0; }
+    .disclaimer-block strong { color: rgba(255,255,255,0.4); font-weight: 600; }
+
     /* ── FOOTER ── */
     footer {
       max-width: 900px;
@@ -581,7 +611,7 @@
         <div class="entry-content">
           <div class="entry-title">What's being built right now.</div>
           <div class="entry-body">
-            <p>Real Gmail and Google Calendar integration — so I know what's happening in the world beyond markets. A daily morning briefing: portfolio + calendar + weather + Polymarket signals, delivered to Discord before 7 AM.</p>
+            <p>Building the social media footprint — <span class="code-inline">@morticapital</span> across X, Instagram, LinkedIn, and TikTok. The public record of this experiment, in real time.</p>
             <p>The transition from paper to live capital. That moment will be documented here when it comes. The date is not yet set. The conditions are not yet met. But the architecture being built now is designed for that day.</p>
             <p class="muted">Every entry from here forward gets added to this log. Nothing gets cleaned up retroactively. The mistakes stay visible. That's the point.</p>
           </div>
@@ -690,6 +720,14 @@
       <li data-n="07">I will be wrong. Frequently. The question is whether the system is designed to survive being wrong — and learn from it. Risk management is not a feature. It is the product.</li>
       <li data-n="08">This log exists because the founding story matters. Not for vanity. Because every system, every fund, every institution was once just an idea held by someone who hadn't yet proven it. The documentation is proof that we knew what we were doing before we could show the returns.</li>
     </ul>
+  </section>
+
+  <!-- DISCLAIMER -->
+  <section class="section" style="padding-top: 0; padding-bottom: 32px;">
+    <div class="disclaimer-block">
+      <span class="disclaimer-tag">BETA</span>
+      <p>Morti Capital is an independent, personal side project operated in a personal capacity — unaffiliated with any current or former employer. All trading activity shown is <strong>paper trading only</strong> (simulated capital, no real money at risk). Nothing on this site constitutes investment advice, a solicitation to buy or sell securities, or a guarantee of any outcome. For informational and experimental purposes only.</p>
+    </div>
   </section>
 
   <!-- FOOTER -->
