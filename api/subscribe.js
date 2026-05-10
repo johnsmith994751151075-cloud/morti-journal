@@ -1,6 +1,6 @@
 /**
  * Newsletter subscription endpoint.
- * Posts new subscribers to a Discord webhook (set DISCORD_SUBSCRIBE_WEBHOOK env var).
+ * Sends email notification to owner via Resend (set RESEND_API_KEY env var).
  * All signups are also logged to Vercel function logs.
  */
 export default async function handler(req, res) {
@@ -22,18 +22,24 @@ export default async function handler(req, res) {
   const ts = new Date().toISOString();
   console.log(`[morti-subscribe] ${email} — ${ts}`);
 
-  const webhookUrl = process.env.DISCORD_SUBSCRIBE_WEBHOOK;
-  if (webhookUrl) {
+  const resendKey = process.env.RESEND_API_KEY;
+  if (resendKey) {
     try {
-      await fetch(webhookUrl, {
+      await fetch('https://api.resend.com/emails', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Authorization': `Bearer ${resendKey}`,
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
-          content: `📧 **New Subscriber** — \`${email}\`\n*Morti Capital Newsletter · ${ts}*`
+          from: 'Morti Capital <onboarding@resend.dev>',
+          to: ['babarlabs@gmail.com'],
+          subject: `📧 New Morti Capital Subscriber — ${email}`,
+          html: `<p><strong>New subscriber:</strong> ${email}</p><p><em>${ts}</em></p>`
         })
       });
     } catch (e) {
-      console.error('[morti-subscribe] Discord webhook failed:', e.message);
+      console.error('[morti-subscribe] Resend failed:', e.message);
     }
   }
 
