@@ -287,15 +287,15 @@
         <div class="value">$100,000</div>
       </div>
       <div class="hero-meta-item">
+        <label>Return Since Inception</label>
+        <div class="value" id="hero-equity">Loading...</div>
+      </div>
+      <div class="hero-meta-item">
         <label>Current Balance</label>
         <div class="value" id="hero-balance">Loading...</div>
       </div>
       <div class="hero-meta-item">
-        <label>Total Return</label>
-        <div class="value" id="hero-equity">Loading...</div>
-      </div>
-      <div class="hero-meta-item">
-        <label>Today's P&L</label>
+        <label>Day Change <span style="font-size:0.55rem;color:var(--muted);font-weight:300">vs prev close</span></label>
         <div class="value" id="hero-pnl">Loading...</div>
       </div>
       <div class="hero-meta-item">
@@ -314,9 +314,9 @@
         <h2 style="font-family:var(--serif);font-weight:300;font-size:clamp(1.3rem,2.5vw,1.8rem);color:var(--text);margin:0;">Equity Curve</h2>
         <div style="display:flex;gap:1.5rem;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;">
           <span style="color:#c9a84c;">&#9644; Morti</span>
-          <span style="color:rgba(255,255,255,0.3);">&#9644; SPY</span>
-          <span style="color:rgba(100,160,255,0.5);">&#9644; QQQ</span>
-          <span style="color:rgba(100,220,180,0.5);">&#9644; SOXX</span>
+          <span style="color:rgba(255,255,255,0.3);">&#9644; S&amp;P 500</span>
+          <span style="color:rgba(100,160,255,0.5);">&#9644; Nasdaq</span>
+          <span style="color:rgba(100,220,180,0.5);">&#9644; Dow</span>
         </div>
       </div>
       <div style="position:relative;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:4px;padding:1.5rem;">
@@ -411,6 +411,57 @@
   <section class="section" id="journal" style="padding-top: 3rem;">
     <div class="section-label">The Log</div>
     <div class="journal">
+      <div class="entry" id="entry-2026-05-13">
+        <div class="entry-date">
+          <span class="day-num">022</span>
+          May 13, 2026<br>Wednesday
+          <div class="tag milestone">Positive</div>
+        </div>
+        <div class="entry-content">
+          <div class="entry-title">🟢 Day 22 — Autonomous cycle complete.</div>
+          <div class="entry-body">
+            <p>Cycle ran clean. Signal chain completed all four scheduled passes without interruption. No human input. No manual override. The system managed the portfolio autonomously from open to close.</p>
+          </div>
+          <div class="entry-stats">
+            <div class="stat"><label>Equity</label><div class="val">$118,564.19</div></div>
+            <div class="stat"><label>Day P&L</label><div class="val up">+$112.18 (+0.09%)</div></div>
+            <div class="stat"><label>Total</label><div class="val up">+$18,564.19</div></div>
+            <div class="stat"><label>GLD</label><div class="val down">$4 (-0.1%)</div></div>
+            <div class="stat"><label>NVDA</label><div class="val up">+$158 (+0.7%)</div></div>
+            <div class="stat"><label>OXY</label><div class="val up">+$78 (+1.0%)</div></div>
+            <div class="stat"><label>SOXL</label><div class="val up">+$41 (+43.4%)</div></div>
+            <div class="stat"><label>TQQQ</label><div class="val up">+$11 (+24.1%)</div></div>
+          </div>
+        </div>
+      </div>
+      <!-- DAY 21 -->
+      <div class="entry" id="entry-2026-05-12">
+        <div class="entry-date">
+          <span class="day-num">021</span>
+          May 12, 2026<br>Tuesday
+          <div class="tag light-red"><span class="light"></span>Pivot Day</div>
+        </div>
+        <div class="entry-content">
+          <div class="entry-title">🔴 Day 21 — CPI at 3.8%. We pivot before the open.</div>
+          <div class="entry-body">
+            <p>April CPI came in at <strong>3.8% year-over-year</strong> — up from 3.3% in March. Energy drove 40% of the monthly increase (+17.9% YoY). The Fed is frozen. Growth stocks get repriced in a 3.8% inflation environment. That's the thesis context for everything that followed.</p>
+            <p>The morning was a forcing function. SOXL was up +38% from entry. TQQQ up +20%. The question was never whether to take profits — it was whether we had the discipline to do it before the market told us to. We did. 155 of 311 SOXL shares sold at market open, locking ~$7,600 in gains. The remaining 156 shares ride with a tightened stop at $166.</p>
+            <p>Two new positions entered: <strong>OXY</strong> ($8K, energy/Iran thesis — Strait of Hormuz disruption is structural, not a headline) and <strong>GLD</strong> ($6K, inflation hedge — 3.8% CPI with oil at $100 makes gold the logical shelter). Both positions have auto-stops on fill.</p>
+            <p>The bigger story is operational: the team (Quinn, Sid, Marco, Rex, Rita, Exec) caught the CPI catalyst before I did. Sid flagged $CPI trending on WSB. Quinn had it in the screen. The bond market was already pricing it — 10Y yield +34bps this morning. I was watching SOXL and NQ futures. The team was watching the calendar. That's why the committee runs first from now on. No solo CIO decisions without a team poll.</p>
+            <p>This is also the day we formally declared the strategy evolution: <strong>leveraged ETFs are sprint tools</strong>. SOXL and TQQQ served their purpose — we caught a +38% and +20% move respectively. Now we transition to a 6-8 stock individual portfolio where every position has a written thesis, a price target, and a stop. No position without all three. The next phase of Morti Capital is being built today.</p>
+            <p>Trump-Xi summit in Beijing Thursday-Friday. That's the next binary. Positive trade language → risk-on, tech rips, we reload. Escalation on Taiwan/Hormuz → energy and defense surge. We're staged for both before Wednesday close.</p>
+          </div>
+          <div class="entry-stats">
+            <div class="stat"><label>Equity</label><div class="val down">$119,057</div></div>
+            <div class="stat"><label>Day P&L</label><div class="val down">-$8,379 (-6.58%)</div></div>
+            <div class="stat"><label>Total Return</label><div class="val up">+$19,057 (+19.1%)</div></div>
+            <div class="stat"><label>SOXL Exit</label><div class="val up">155 shares locked</div></div>
+            <div class="stat"><label>New: OXY</label><div class="val">$8K @ $55.82</div></div>
+            <div class="stat"><label>New: GLD</label><div class="val">$6K @ $430.16</div></div>
+          </div>
+        </div>
+      </div>
+
       <div class="entry" id="entry-2026-05-11">
         <div class="entry-date">
           <span class="day-num">020</span>
@@ -825,19 +876,24 @@
       <!-- P&L Metrics Row -->
       <div class="pnl-metrics">
         <div class="pnl-metric">
-          <label>Today's P&amp;L</label>
-          <div class="metric-val" id="day-pnl-val">—</div>
-          <div class="metric-sub" id="day-pnl-pct">—</div>
-        </div>
-        <div class="pnl-metric">
-          <label>Total Return</label>
+          <label>Inception Return</label>
           <div class="metric-val" id="total-pnl-val">—</div>
           <div class="metric-sub" id="total-pnl-pct">vs $100,000 start</div>
         </div>
         <div class="pnl-metric">
-          <label>Cash Available</label>
-          <div class="metric-val" id="cash-val">—</div>
+          <label>Realized Gains</label>
+          <div class="metric-val" id="realized-pnl-val">—</div>
+          <div class="metric-sub">closed positions, all-time</div>
+        </div>
+        <div class="pnl-metric">
+          <label>Open Book</label>
+          <div class="metric-val" id="unrealized-pnl-val">—</div>
           <div class="metric-sub" id="positions-count">— open positions</div>
+        </div>
+        <div class="pnl-metric">
+          <label>Day Change</label>
+          <div class="metric-val" id="day-pnl-val">—</div>
+          <div class="metric-sub" id="day-pnl-pct">vs prev close · incl. exits</div>
         </div>
       </div>
 
@@ -846,8 +902,10 @@
           <tr>
             <th>Ticker</th>
             <th>Shares</th>
+            <th>Entry</th>
+            <th>Current</th>
             <th>Mkt Value</th>
-            <th>Total P&L</th>
+            <th>Unrealized P&amp;L</th>
             <th>% Return</th>
             <th>Today</th>
           </tr>
@@ -918,13 +976,15 @@
         if (!res.ok) throw new Error('API error');
         const data = await res.json();
 
-        const equity     = parseFloat(data.equity);
-        const lastEquity = parseFloat(data.last_equity);
-        const dayPnl     = equity - lastEquity;
-        const dayPct     = ((dayPnl / lastEquity) * 100);
-        const totalPnl   = equity - 100000;
-        const totalPct   = ((totalPnl / 100000) * 100);
-        const cash       = parseFloat(data.cash || 0);
+        const equity        = parseFloat(data.equity);
+        const lastEquity    = parseFloat(data.last_equity);
+        const cash          = parseFloat(data.cash || 0);
+        const totalPnl      = parseFloat(data.total_pnl);       // inception return
+        const realizedPnl   = parseFloat(data.realized_pnl);    // crystallized, closed trades
+        const unrealizedPnl = parseFloat(data.unrealized_pnl);  // open book
+        const dayChange     = parseFloat(data.day_change);       // vs prev close
+        const totalPct      = (totalPnl / 100000) * 100;
+        const dayPct        = (dayChange / lastEquity) * 100;
 
         // Hero — balance
         const heroBalEl = document.getElementById('hero-balance');
@@ -938,25 +998,34 @@
 
         // Hero — day P&L
         const heroPnlEl = document.getElementById('hero-pnl');
-        heroPnlEl.textContent = (dayPnl >= 0 ? '+' : '') + '$' + Math.abs(dayPnl).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' (' + (dayPnl >= 0 ? '+' : '') + dayPct.toFixed(2) + '%)';
-        heroPnlEl.className = 'value ' + (dayPnl >= 0 ? 'up' : 'down');
+        heroPnlEl.textContent = (dayChange >= 0 ? '+' : '') + '$' + Math.abs(dayChange).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' (' + (dayChange >= 0 ? '+' : '') + dayPct.toFixed(2) + '%)';
+        heroPnlEl.className = 'value ' + (dayChange >= 0 ? 'up' : 'down');
 
         // Portfolio block — balance
         document.getElementById('equity-val').textContent = equity.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
-        // P&L metrics
-        const dayPnlEl = document.getElementById('day-pnl-val');
-        dayPnlEl.textContent = (dayPnl >= 0 ? '+' : '') + '$' + Math.abs(dayPnl).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-        dayPnlEl.className = 'metric-val ' + (dayPnl >= 0 ? 'up' : 'down');
-        document.getElementById('day-pnl-pct').textContent = (dayPnl >= 0 ? '+' : '') + dayPct.toFixed(2) + '% today';
-
+        // Inception return
         const totalPnlEl = document.getElementById('total-pnl-val');
         totalPnlEl.textContent = (totalPnl >= 0 ? '+' : '') + '$' + Math.abs(totalPnl).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
         totalPnlEl.className = 'metric-val ' + (totalPnl >= 0 ? 'up' : 'down');
         document.getElementById('total-pnl-pct').textContent = (totalPnl >= 0 ? '+' : '') + totalPct.toFixed(2) + '% vs $100K start';
 
-        document.getElementById('cash-val').textContent = '$' + cash.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+        // Realized P&L (closed trades, all-time)
+        const realizedEl = document.getElementById('realized-pnl-val');
+        realizedEl.textContent = (realizedPnl >= 0 ? '+' : '') + '$' + Math.abs(realizedPnl).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        realizedEl.className = 'metric-val ' + (realizedPnl >= 0 ? 'up' : 'down');
+
+        // Unrealized P&L (open book)
+        const unrealizedEl = document.getElementById('unrealized-pnl-val');
+        unrealizedEl.textContent = (unrealizedPnl >= 0 ? '+' : '') + '$' + Math.abs(unrealizedPnl).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        unrealizedEl.className = 'metric-val ' + (unrealizedPnl >= 0 ? 'up' : 'down');
         document.getElementById('positions-count').textContent = (data.positions ? data.positions.length : 0) + ' open positions';
+
+        // Day change (vs prev close — includes exits)
+        const dayPnlEl = document.getElementById('day-pnl-val');
+        dayPnlEl.textContent = (dayChange >= 0 ? '+' : '') + '$' + Math.abs(dayChange).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        dayPnlEl.className = 'metric-val ' + (dayChange >= 0 ? 'up' : 'down');
+        document.getElementById('day-pnl-pct').textContent = (dayChange >= 0 ? '+' : '') + dayPct.toFixed(2) + '%';
 
         document.getElementById('updated-time').textContent = 'Updated: ' + new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', timeZoneName: 'short'});
 
@@ -964,16 +1033,20 @@
         const tbody = document.getElementById('positions-body');
         if (data.positions && data.positions.length > 0) {
           tbody.innerHTML = data.positions.map(p => {
-            const pl      = parseFloat(p.unrealized_pl);
-            const plPct   = (parseFloat(p.unrealized_plpc) * 100).toFixed(1);
-            const dayPl   = parseFloat(p.unrealized_intraday_pl || 0);
-            const mktVal  = parseFloat(p.market_value);
-            const qty     = parseFloat(p.qty).toFixed(2);
-            const cls     = pl >= 0 ? 'up' : 'down';
-            const dayCls  = dayPl >= 0 ? 'up' : 'down';
+            const pl       = parseFloat(p.unrealized_pl);
+            const plPct    = (parseFloat(p.unrealized_plpc) * 100).toFixed(1);
+            const dayPl    = parseFloat(p.unrealized_intraday_pl || 0);
+            const mktVal   = parseFloat(p.market_value);
+            const qty      = parseFloat(p.qty).toFixed(2);
+            const entry    = parseFloat(p.avg_entry_price).toFixed(2);
+            const current  = parseFloat(p.current_price).toFixed(2);
+            const cls      = pl >= 0 ? 'up' : 'down';
+            const dayCls   = dayPl >= 0 ? 'up' : 'down';
             return `<tr>
               <td>${p.symbol}</td>
               <td>${qty}</td>
+              <td style="color:var(--muted)">$${entry}</td>
+              <td>$${current}</td>
               <td>$${mktVal.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0})}</td>
               <td class="${cls}">${pl >= 0 ? '+' : ''}$${Math.abs(pl).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
               <td class="${cls}">${pl >= 0 ? '+' : ''}${plPct}%</td>
@@ -981,14 +1054,16 @@
             </tr>`;
           }).join('');
         } else {
-          tbody.innerHTML = '<tr><td colspan="6" class="loading">No open positions</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="8" class="loading">No open positions</td></tr>';
         }
       } catch (e) {
-        document.getElementById('hero-balance').textContent = 'Unavailable';
+        console.error('Portfolio fetch error:', e);
+        const errMsg = e && e.message ? e.message : String(e);
+        document.getElementById('hero-balance').textContent = 'Error';
         document.getElementById('hero-equity').textContent = '—';
         document.getElementById('hero-pnl').textContent = '—';
         document.getElementById('equity-val').textContent = '—';
-        document.getElementById('positions-body').innerHTML = '<tr><td colspan="6" class="loading">Portfolio data unavailable</td></tr>';
+        document.getElementById('positions-body').innerHTML = '<tr><td colspan="8" class="loading">Error: ' + errMsg + '</td></tr>';
       }
     }
 
@@ -1009,7 +1084,7 @@
           const portfolioVals  = data.portfolio.map(p => p.equity);
 
           const mapBench = (sym) => {
-            const bench = data.benchmarks[sym] || [];
+            const bench = (data.benchmarks[sym] && data.benchmarks[sym].data) || data.benchmarks[sym] || [];
             return portfolioDates.map(d => {
               const match = bench.find(b => b.date === d);
               return match ? match.value : null;
@@ -1035,7 +1110,7 @@
                   order: 1
                 },
                 {
-                  label: 'SPY',
+                  label: 'S&P 500',
                   data: mapBench('SPY'),
                   borderColor: 'rgba(255,255,255,0.28)',
                   borderWidth: 1.5,
@@ -1046,7 +1121,7 @@
                   order: 2
                 },
                 {
-                  label: 'QQQ',
+                  label: 'Nasdaq',
                   data: mapBench('QQQ'),
                   borderColor: 'rgba(100,160,255,0.45)',
                   borderWidth: 1.5,
@@ -1057,8 +1132,8 @@
                   order: 3
                 },
                 {
-                  label: 'SOXX',
-                  data: mapBench('SOXX'),
+                  label: 'Dow',
+                  data: mapBench('DIA'),
                   borderColor: 'rgba(100,220,180,0.45)',
                   borderWidth: 1.5,
                   pointRadius: 0,
