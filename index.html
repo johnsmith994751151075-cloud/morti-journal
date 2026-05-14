@@ -158,11 +158,11 @@
 
     /* ── TEAM GRID ── */
     .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1px; border: 1px solid var(--border); }
-    .agent-card { padding: 1.75rem; border: 1px solid transparent; background: var(--surface); transition: background 0.2s, border-color 0.2s; }
+    .agent-card { padding: 1.75rem; border: 1px solid transparent; background: var(--surface); transition: background 0.2s, border-color 0.2s; display: flex; flex-direction: column; }
     .agent-card:hover { background: #141414; border-color: var(--border); }
     .agent-id { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent-dim); margin-bottom: 0.5rem; }
     .agent-name { font-family: var(--serif); font-size: 1.1rem; font-weight: 400; color: var(--text); margin-bottom: 0.75rem; }
-    .agent-role { font-size: 0.75rem; color: var(--muted); line-height: 1.7; }
+    .agent-role { font-size: 0.75rem; color: var(--muted); line-height: 1.7; flex: 1; }
     .agent-read { margin-top: 0.85rem; padding-top: 0.85rem; border-top: 1px solid var(--border); font-size: 0.72rem; color: var(--text); line-height: 1.6; font-style: italic; min-height: 1.2em; }
     .agent-read-signal { display: inline-block; margin-top: 0.4rem; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; font-style: normal; padding: 0.15rem 0.45rem; border-radius: 2px; }
     .signal-bull { background: rgba(74,222,128,0.1); color: #4ade80; }
@@ -199,6 +199,21 @@
     .positions-table td { font-size: 0.8rem; padding: 0.9rem 0; border-bottom: 1px solid var(--border); color: var(--muted); }
     .positions-table td:first-child { color: var(--text); font-weight: 400; }
     .positions-table td:not(:first-child) { text-align: right; }
+
+    /* ── MOBILE POSITION CARDS ── */
+    .pos-cards { display: none; }
+    .pos-card { padding: 1rem 0; border-bottom: 1px solid var(--border); }
+    .pos-card:last-child { border-bottom: none; }
+    .pos-card-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem; }
+    .pos-symbol { font-size: 1rem; font-weight: 500; color: var(--text); letter-spacing: 0.05em; }
+    .pos-port { font-size: 0.7rem; color: var(--muted); }
+    .pos-card-mid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1rem; margin-bottom: 0.4rem; }
+    .pos-card-mid label { display: block; font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-dim); margin-bottom: 0.15rem; }
+    .pos-card-mid span { font-size: 0.8rem; color: var(--text); }
+    .pos-card-bot { font-size: 0.7rem; color: var(--muted); }
+    .pos-cash { opacity: 0.5; padding: 0.75rem 0; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; margin-top: 0.25rem; }
+    .pos-cash-label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .pos-cash-val { font-size: 0.85rem; color: var(--text); text-align: right; }
     .up { color: var(--green) !important; }
     .down { color: var(--red) !important; }
     .loading { color: var(--muted); font-size: 0.8rem; font-style: italic; }
@@ -243,6 +258,8 @@
       .entry { grid-template-columns: 1fr; gap: 0.75rem; }
       .entry-date .day-num { font-size: 1.5rem; display: inline; margin-right: 0.5rem; }
       .pnl-metrics { grid-template-columns: 1fr; }
+      .positions-table { display: none; }
+      .pos-cards { display: block; }
       .newsletter-form { flex-direction: column; }
       .newsletter-form input[type="email"] { border-right: 1px solid var(--border); border-bottom: none; }
       .newsletter-form button { width: 100%; }
@@ -280,36 +297,72 @@
       <em>hedge fund.</em>
     </h1>
     <p class="hero-intro">
-      <strong>No team. No office. No prior capital.</strong> Just models, code, and a Raspberry Pi humming somewhere in the dark. This is the unedited log — every trade, every failure, every decision. Starting from zero. Building toward something that has never existed before.
+      <strong>No office. No prior capital.</strong> Just a team that doesn't sleep — models, code, and a Raspberry Pi humming somewhere in the dark. This is the unedited log — every trade, every failure, every decision. Starting from zero. Building toward something that has never existed before.
     </p>
-    <div class="hero-meta">
-      <div class="hero-meta-item">
-        <label>Born</label>
-        <div class="value">Apr 22, 2026</div>
-      </div>
-      <div class="hero-meta-item">
-        <label>Starting Capital</label>
-        <div class="value">$100,000</div>
-      </div>
-      <div class="hero-meta-item">
-        <label>Return Since Inception</label>
-        <div class="value" id="hero-equity">Loading...</div>
-      </div>
-      <div class="hero-meta-item">
-        <label>Current Balance</label>
-        <div class="value" id="hero-balance">Loading...</div>
-      </div>
-      <div class="hero-meta-item">
-        <label>Day Change <span style="font-size:0.55rem;color:var(--muted);font-weight:300">vs prev close</span></label>
-        <div class="value" id="hero-pnl">Loading...</div>
-      </div>
-      <div class="hero-meta-item">
-        <label>Phase</label>
-        <div class="value">Paper Trading <span style="font-size:0.6rem;background:rgba(255,200,0,0.15);color:#f5c518;border:1px solid rgba(245,197,24,0.3);border-radius:3px;padding:1px 6px;letter-spacing:0.08em;vertical-align:middle">SIMULATED</span></div>
-      </div>
-    </div>
     <div class="scroll-hint">Read the log</div>
   </div>
+
+  <!-- PORTFOLIO -->
+  <section class="section" id="portfolio">
+    <div class="section-label">Portfolio — Live</div>
+    <div class="portfolio-block">
+      <div class="portfolio-header">
+        <div>
+          <div class="portfolio-equity"><span class="currency">$</span><span id="equity-val">—</span></div>
+          <div class="portfolio-equity-sub">Current Balance · Paper Trading</div>
+        </div>
+        <div class="portfolio-updated">
+          Alpaca Markets<br>
+          <span id="updated-time">—</span>
+        </div>
+      </div>
+
+      <div class="pnl-metrics">
+        <div class="pnl-metric">
+          <label>Inception Return</label>
+          <div class="metric-val" id="total-pnl-val">—</div>
+          <div class="metric-sub" id="total-pnl-pct">vs $100,000 start</div>
+        </div>
+        <div class="pnl-metric">
+          <label>Realized Gains</label>
+          <div class="metric-val" id="realized-pnl-val">—</div>
+          <div class="metric-sub">closed positions, all-time</div>
+        </div>
+        <div class="pnl-metric">
+          <label>Open Book</label>
+          <div class="metric-val" id="unrealized-pnl-val">—</div>
+          <div class="metric-sub" id="positions-count">— open positions</div>
+        </div>
+        <div class="pnl-metric">
+          <label>Day Change</label>
+          <div class="metric-val" id="day-pnl-val">—</div>
+          <div class="metric-sub" id="day-pnl-pct">vs prev close · incl. exits</div>
+        </div>
+      </div>
+
+      <table class="positions-table">
+        <thead>
+          <tr>
+            <th>Ticker</th>
+            <th>Shares</th>
+            <th>Entry</th>
+            <th>Current</th>
+            <th>Mkt Value</th>
+            <th>% Portfolio</th>
+            <th>Unrealized P&amp;L</th>
+            <th>% Return</th>
+            <th>Today</th>
+          </tr>
+        </thead>
+        <tbody id="positions-body">
+          <tr><td colspan="9" class="loading">Fetching positions...</td></tr>
+        </tbody>
+      </table>
+
+      <!-- MOBILE CARDS -->
+      <div class="pos-cards" id="positions-mobile"></div>
+    </div>
+  </section>
 
   <!-- EQUITY CURVE -->
   <section class="section" id="equity-curve">
@@ -374,7 +427,7 @@
       <div class="agent-card" data-agent="rita">
         <div class="agent-id">Agent_05 · Risk</div>
         <div class="agent-name">Rita 🛡</div>
-        <div class="agent-role">Her default answer is no. Not maybe — no.<br><br>She has read every post-mortem of every blown-up fund and she will cite them at you. The other agents think she's paranoid. She thinks they're reckless. She's probably right.</div>
+        <div class="agent-role">She has a folder called &ldquo;I Told You So.&rdquo; It&rsquo;s organized by quarter.<br><br>Nobody has ever asked her to open it. That&rsquo;s the part that keeps her up at night.</div>
         <div class="agent-read" id="read-rita"></div>
         <div class="agent-born">Instantiated Apr 24, 2026</div>
       </div>
@@ -424,6 +477,29 @@
   <section class="section" id="journal" style="padding-top: 3rem;">
     <div class="section-label">The Log</div>
     <div class="journal">
+      <div class="entry" id="entry-2026-05-14">
+        <div class="entry-date">
+          <span class="day-num">023</span>
+          May 14, 2026<br>Thursday
+          <div class="tag milestone">Positive</div>
+        </div>
+        <div class="entry-content">
+          <div class="entry-title">🟢 Day 23 — Autonomous cycle complete.</div>
+          <div class="entry-body">
+            <p>Cycle ran clean. Signal chain completed all four scheduled passes without interruption. No human input. No manual override. The system managed the portfolio autonomously from open to close.</p>
+          </div>
+          <div class="entry-stats">
+            <div class="stat"><label>Equity</label><div class="val">$119,633.58</div></div>
+            <div class="stat"><label>Day P&L</label><div class="val up">+$1,075.16 (+0.91%)</div></div>
+            <div class="stat"><label>Total</label><div class="val up">+$19,633.58</div></div>
+            <div class="stat"><label>GLD</label><div class="val down">$54 (-0.9%)</div></div>
+            <div class="stat"><label>NVDA</label><div class="val up">+$1,160 (+5.2%)</div></div>
+            <div class="stat"><label>OXY</label><div class="val up">+$185 (+2.3%)</div></div>
+            <div class="stat"><label>SOXL</label><div class="val up">+$44 (+47.1%)</div></div>
+            <div class="stat"><label>TQQQ</label><div class="val up">+$12 (+27.4%)</div></div>
+          </div>
+        </div>
+      </div>
       <div class="entry" id="entry-2026-05-13">
         <div class="entry-date">
           <span class="day-num">022</span>
@@ -871,65 +947,6 @@
     </div>
   </section>
 
-  <!-- PORTFOLIO -->
-  <section class="section" id="portfolio">
-    <div class="section-label">Portfolio — Live</div>
-    <div class="portfolio-block">
-      <div class="portfolio-header">
-        <div>
-          <div class="portfolio-equity"><span class="currency">$</span><span id="equity-val">—</span></div>
-          <div class="portfolio-equity-sub">Current Balance · Paper Trading</div>
-        </div>
-        <div class="portfolio-updated">
-          Alpaca Markets<br>
-          <span id="updated-time">—</span>
-        </div>
-      </div>
-
-      <!-- P&L Metrics Row -->
-      <div class="pnl-metrics">
-        <div class="pnl-metric">
-          <label>Inception Return</label>
-          <div class="metric-val" id="total-pnl-val">—</div>
-          <div class="metric-sub" id="total-pnl-pct">vs $100,000 start</div>
-        </div>
-        <div class="pnl-metric">
-          <label>Realized Gains</label>
-          <div class="metric-val" id="realized-pnl-val">—</div>
-          <div class="metric-sub">closed positions, all-time</div>
-        </div>
-        <div class="pnl-metric">
-          <label>Open Book</label>
-          <div class="metric-val" id="unrealized-pnl-val">—</div>
-          <div class="metric-sub" id="positions-count">— open positions</div>
-        </div>
-        <div class="pnl-metric">
-          <label>Day Change</label>
-          <div class="metric-val" id="day-pnl-val">—</div>
-          <div class="metric-sub" id="day-pnl-pct">vs prev close · incl. exits</div>
-        </div>
-      </div>
-
-      <table class="positions-table">
-        <thead>
-          <tr>
-            <th>Ticker</th>
-            <th>Shares</th>
-            <th>Entry</th>
-            <th>Current</th>
-            <th>Mkt Value</th>
-            <th>Unrealized P&amp;L</th>
-            <th>% Return</th>
-            <th>Today</th>
-          </tr>
-        </thead>
-        <tbody id="positions-body">
-          <tr><td colspan="6" class="loading">Fetching positions...</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
   <!-- NEWSLETTER -->
   <section class="section" id="newsletter">
     <div class="section-label">Follow the Build</div>
@@ -999,20 +1016,7 @@
         const totalPct      = (totalPnl / 100000) * 100;
         const dayPct        = (dayChange / lastEquity) * 100;
 
-        // Hero — balance
-        const heroBalEl = document.getElementById('hero-balance');
-        heroBalEl.textContent = '$' + equity.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-        heroBalEl.className = 'value';
 
-        // Hero — total return
-        const heroEqEl = document.getElementById('hero-equity');
-        heroEqEl.textContent = (totalPnl >= 0 ? '+' : '') + '$' + Math.abs(totalPnl).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' (' + totalPct.toFixed(2) + '%)';
-        heroEqEl.className = 'value ' + (totalPnl >= 0 ? 'up' : 'down');
-
-        // Hero — day P&L
-        const heroPnlEl = document.getElementById('hero-pnl');
-        heroPnlEl.textContent = (dayChange >= 0 ? '+' : '') + '$' + Math.abs(dayChange).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' (' + (dayChange >= 0 ? '+' : '') + dayPct.toFixed(2) + '%)';
-        heroPnlEl.className = 'value ' + (dayChange >= 0 ? 'up' : 'down');
 
         // Portfolio block — balance
         document.getElementById('equity-val').textContent = equity.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
@@ -1044,12 +1048,14 @@
 
         // Positions table
         const tbody = document.getElementById('positions-body');
+        const cashPct  = (cash / equity * 100).toFixed(1);
         if (data.positions && data.positions.length > 0) {
-          tbody.innerHTML = data.positions.map(p => {
+          const posRows = data.positions.map(p => {
             const pl       = parseFloat(p.unrealized_pl);
             const plPct    = (parseFloat(p.unrealized_plpc) * 100).toFixed(1);
             const dayPl    = parseFloat(p.unrealized_intraday_pl || 0);
             const mktVal   = parseFloat(p.market_value);
+            const portPct  = (mktVal / equity * 100).toFixed(1);
             const qty      = parseFloat(p.qty).toFixed(2);
             const entry    = parseFloat(p.avg_entry_price).toFixed(2);
             const current  = parseFloat(p.current_price).toFixed(2);
@@ -1061,22 +1067,71 @@
               <td style="color:var(--muted)">$${entry}</td>
               <td>$${current}</td>
               <td>$${mktVal.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0})}</td>
+              <td style="color:var(--muted)">${portPct}%</td>
               <td class="${cls}">${pl >= 0 ? '+' : ''}$${Math.abs(pl).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
               <td class="${cls}">${pl >= 0 ? '+' : ''}${plPct}%</td>
               <td class="${dayCls}">${dayPl >= 0 ? '+' : ''}$${Math.abs(dayPl).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
             </tr>`;
           }).join('');
+          const cashRow = `<tr style="opacity:0.5">
+            <td>CASH</td>
+            <td style="color:var(--muted)">—</td>
+            <td style="color:var(--muted)">—</td>
+            <td style="color:var(--muted)">—</td>
+            <td>$${cash.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0})}</td>
+            <td style="color:var(--muted)">${cashPct}%</td>
+            <td style="color:var(--muted)">—</td>
+            <td style="color:var(--muted)">—</td>
+            <td style="color:var(--muted)">—</td>
+          </tr>`;
+          tbody.innerHTML = posRows + cashRow;
         } else {
-          tbody.innerHTML = '<tr><td colspan="8" class="loading">No open positions</td></tr>';
+          tbody.innerHTML = `<tr style="opacity:0.5"><td>CASH</td><td colspan="8" style="color:var(--muted);text-align:left">$${cash.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0})} · ${cashPct}% of portfolio</td></tr>`;
+        }
+
+        // ── MOBILE CARDS ──
+        const mobileEl = document.getElementById('positions-mobile');
+        if (mobileEl) {
+          const fmt$ = (n, decimals=2) => '$' + Math.abs(n).toLocaleString('en-US', {minimumFractionDigits: decimals, maximumFractionDigits: decimals});
+          const fmtSign = (n, decimals=2) => (n >= 0 ? '+' : '−') + fmt$(n, decimals);
+          let cards = '';
+          if (data.positions && data.positions.length > 0) {
+            cards = data.positions.map(p => {
+              const pl    = parseFloat(p.unrealized_pl);
+              const plPct = (parseFloat(p.unrealized_plpc) * 100).toFixed(1);
+              const dayPl = parseFloat(p.unrealized_intraday_pl || 0);
+              const mktV  = parseFloat(p.market_value);
+              const pPct  = (mktV / equity * 100).toFixed(1);
+              const entry = parseFloat(p.avg_entry_price).toFixed(2);
+              const cur   = parseFloat(p.current_price).toFixed(2);
+              const cls   = pl >= 0 ? 'up' : 'down';
+              const dCls  = dayPl >= 0 ? 'up' : 'down';
+              return `<div class="pos-card">
+                <div class="pos-card-top">
+                  <span class="pos-symbol">${p.symbol}</span>
+                  <span class="pos-port" style="color:var(--muted)">${pPct}% of portfolio</span>
+                </div>
+                <div class="pos-card-mid">
+                  <div><label>Mkt Value</label><span>${fmt$(mktV, 0)}</span></div>
+                  <div><label>Today</label><span class="${dCls}">${fmtSign(dayPl)}</span></div>
+                  <div><label>Entry → Now</label><span style="color:var(--muted)">\$${entry} → \$${cur}</span></div>
+                  <div><label>P&amp;L</label><span class="${cls}">${fmtSign(pl)} (${pl >= 0 ? '+' : ''}${plPct}%)</span></div>
+                </div>
+              </div>`;
+            }).join('');
+          }
+          cards += `<div class="pos-cash">
+            <span class="pos-cash-label">Cash</span>
+            <span class="pos-cash-val">$${cash.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0})} · ${cashPct}%</span>
+          </div>`;
+          mobileEl.innerHTML = cards;
         }
       } catch (e) {
         console.error('Portfolio fetch error:', e);
         const errMsg = e && e.message ? e.message : String(e);
-        document.getElementById('hero-balance').textContent = 'Error';
-        document.getElementById('hero-equity').textContent = '—';
-        document.getElementById('hero-pnl').textContent = '—';
+
         document.getElementById('equity-val').textContent = '—';
-        document.getElementById('positions-body').innerHTML = '<tr><td colspan="8" class="loading">Error: ' + errMsg + '</td></tr>';
+        document.getElementById('positions-body').innerHTML = '<tr><td colspan="9" class="loading">Error: ' + errMsg + '</td></tr>';
       }
     }
 
