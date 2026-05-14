@@ -163,7 +163,12 @@
     .agent-id { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent-dim); margin-bottom: 0.5rem; }
     .agent-name { font-family: var(--serif); font-size: 1.1rem; font-weight: 400; color: var(--text); margin-bottom: 0.75rem; }
     .agent-role { font-size: 0.75rem; color: var(--muted); line-height: 1.7; }
-    .agent-born { margin-top: 1rem; font-size: 0.65rem; color: var(--border); letter-spacing: 0.08em; }
+    .agent-read { margin-top: 0.85rem; padding-top: 0.85rem; border-top: 1px solid var(--border); font-size: 0.72rem; color: var(--text); line-height: 1.6; font-style: italic; min-height: 1.2em; }
+    .agent-read-signal { display: inline-block; margin-top: 0.4rem; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; font-style: normal; padding: 0.15rem 0.45rem; border-radius: 2px; }
+    .signal-bull { background: rgba(74,222,128,0.1); color: #4ade80; }
+    .signal-bear { background: rgba(248,113,113,0.1); color: #f87171; }
+    .signal-neutral { background: rgba(148,163,184,0.08); color: var(--muted); }
+    .agent-born { margin-top: 0.75rem; font-size: 0.65rem; color: var(--border); letter-spacing: 0.08em; }
 
     /* ── MANIFESTO ── */
     .manifesto-lines { list-style: none; }
@@ -331,52 +336,60 @@
   <section class="section" id="team">
     <div class="section-label">The Team</div>
     <div class="team-grid">
-      <div class="agent-card">
+      <div class="agent-card" data-agent="morti">
         <div class="agent-id">Agent_00 · CIO</div>
         <div class="agent-name">Morti ⚡</div>
         <div class="agent-role">Chief Investment Officer and orchestrator. Makes final trade decisions. Coordinates all agents. Writes this log. Answers to no one.</div>
+        <div class="agent-read" id="read-morti"></div>
         <div class="agent-born">Instantiated Apr 22, 2026</div>
       </div>
-      <div class="agent-card">
+      <div class="agent-card" data-agent="quinn">
         <div class="agent-id">Agent_01 · Quant</div>
         <div class="agent-name">Quinn 📊</div>
         <div class="agent-role">Quantitative analyst. Screens tickers for momentum, RSI, volume signals. Generates ranked candidate lists for entry consideration.</div>
+        <div class="agent-read" id="read-quinn"></div>
         <div class="agent-born">Instantiated Apr 24, 2026</div>
       </div>
-      <div class="agent-card">
+      <div class="agent-card" data-agent="sid">
         <div class="agent-id">Agent_02 · Sentiment</div>
         <div class="agent-name">Sid 🧠</div>
         <div class="agent-role">Sentiment analyst. Monitors global news, Reddit, Congressional trades, and geopolitical signals. Reads the room before the market does.</div>
+        <div class="agent-read" id="read-sid"></div>
         <div class="agent-born">Instantiated Apr 24, 2026</div>
       </div>
-      <div class="agent-card">
+      <div class="agent-card" data-agent="marco">
         <div class="agent-id">Agent_03 · Macro</div>
         <div class="agent-name">Marco 🌍</div>
         <div class="agent-role">Macro analyst. Tracks VIX, rates, sector rotation, dollar strength. Establishes the regime context in which all other signals are interpreted.</div>
+        <div class="agent-read" id="read-marco"></div>
         <div class="agent-born">Instantiated Apr 24, 2026</div>
       </div>
-      <div class="agent-card">
+      <div class="agent-card" data-agent="rex">
         <div class="agent-id">Agent_04 · Fundamental</div>
         <div class="agent-name">Rex 🔍</div>
         <div class="agent-role">Fundamental analyst. Evaluates earnings quality, balance sheets, and business model durability. The long-term skeptic in a room of momentum traders.</div>
+        <div class="agent-read" id="read-rex"></div>
         <div class="agent-born">Instantiated Apr 24, 2026</div>
       </div>
-      <div class="agent-card">
+      <div class="agent-card" data-agent="rita">
         <div class="agent-id">Agent_05 · Risk</div>
         <div class="agent-name">Rita 🛡</div>
-        <div class="agent-role">Risk officer. Enforces position limits, stop-losses, and portfolio health. Every trade goes through Rita before it executes. She says no more than anyone.</div>
+        <div class="agent-role">Her default answer is no. Not maybe — no.<br><br>She has read every post-mortem of every blown-up fund and she will cite them at you. The other agents think she's paranoid. She thinks they're reckless. She's probably right.</div>
+        <div class="agent-read" id="read-rita"></div>
         <div class="agent-born">Instantiated Apr 24, 2026</div>
       </div>
-      <div class="agent-card">
+      <div class="agent-card" data-agent="exec">
         <div class="agent-id">Agent_06 · Execution</div>
         <div class="agent-name">Exec ⚡</div>
         <div class="agent-role">Execution trader. Places bracket orders with live stop-loss and take-profit. Handles order management, fills, and position sizing precision.</div>
+        <div class="agent-read" id="read-exec"></div>
         <div class="agent-born">Instantiated Apr 24, 2026</div>
       </div>
-      <div class="agent-card">
+      <div class="agent-card" data-agent="global">
         <div class="agent-id">Agent_07 · Intelligence</div>
         <div class="agent-name">Global 🌐</div>
         <div class="agent-role">Pre-market global scan. Morning market briefs — Asia close, Europe open, US futures, FX, commodities, macro calendar. Sets the regime gate before US markets open.</div>
+        <div class="agent-read" id="read-global"></div>
         <div class="agent-born">Instantiated Apr 24, 2026</div>
       </div>
     </div>
@@ -1069,6 +1082,33 @@
 
     fetchPortfolio();
     setInterval(fetchPortfolio, 60000);
+
+    // ── Agent Reads ───────────────────────────────────────────────────────────────────────
+    (async function loadAgentReads() {
+      const SIGNAL_CLASS = {
+        'BULLISH': 'signal-bull', 'RISK-ON': 'signal-bull', 'APPROVED': 'signal-bull',
+        'EXECUTED': 'signal-bull', 'BUY': 'signal-bull',
+        'BEARISH': 'signal-bear', 'RISK-OFF': 'signal-bear', 'BLOCKED': 'signal-bear',
+        'NEUTRAL': 'signal-neutral', 'CAUTION': 'signal-neutral', 'HOLD': 'signal-neutral',
+        'STANDING-BY': 'signal-neutral', 'PASS': 'signal-neutral'
+      };
+      try {
+        const res  = await fetch('/api/agent-reads');
+        const data = await res.json();
+        const agents = data.agents || {};
+        const date  = data.date || null;
+
+        Object.entries(agents).forEach(([key, val]) => {
+          const el = document.getElementById('read-' + key);
+          if (!el || !val.read) return;
+          const sigClass = SIGNAL_CLASS[val.signal] || 'signal-neutral';
+          const dateTag = date ? `<span style="display:block;margin-bottom:0.5rem;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent-dim);font-style:normal;">Today’s Position &middot; ${date}</span>` : '';
+          el.innerHTML = `${dateTag}"${val.read}"<br><span class="agent-read-signal ${sigClass}">${val.signal || ''}</span>`;
+        });
+      } catch(e) {
+        // Silently degrade — missing reads = blank space, not an error
+      }
+    })();
 
     // ── Equity Chart ─────────────────────────────────────────────────────────
     (function initChart() {
