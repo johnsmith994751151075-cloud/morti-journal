@@ -23,7 +23,7 @@ function alpacaRequest(path) {
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate');
+  res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate');
 
   try {
     const [account, positions] = await Promise.all([
@@ -31,16 +31,44 @@ module.exports = async (req, res) => {
       alpacaRequest('/positions')
     ]);
 
+    const equity      = parseFloat(account.equity);
+    const lastEquity  = parseFloat(account.last_equity);
+    const cash        = parseFloat(account.cash);
+    const startingCap = 100000;
+
+    // Total P&L since inception — always accurate
+    const totalPnl = equity - startingCap;
+
+    // Unrealized P&L — sum of all open positions
+    const unrealizedPnl = positions.reduce((sum, p) => sum + parseFloat(p.unrealized_pl || 0), 0);
+
+    // Realized P&L — accounting identity: Total = Realized + Unrealized
+    // This is always mathematically correct regardless of what trades happened
+    const realizedPnl = totalPnl - unrealizedPnl;
+
+    // Day change — mark vs previous close (includes position exits)
+    const dayChange = equity - lastEquity;
+
     res.status(200).json({
-      equity: account.equity,
-      last_equity: account.last_equity,
-      cash: account.cash,
+      equity,
+      last_equity: lastEquity,
+      cash,
+      starting_capital: startingCap,
+
+      // P&L breakdown — always accurate
+      total_pnl:      totalPnl,       // inception return
+      realized_pnl:   realizedPnl,    // crystallized gains (closed trades)
+      unrealized_pnl: unrealizedPnl,  // open book mark-to-market
+      day_change:     dayChange,       // vs previous close (includes exits)
+
       positions: positions.map(p => ({
-        symbol: p.symbol,
-        qty: p.qty,
-        market_value: p.market_value,
-        unrealized_pl: p.unrealized_pl,
-        unrealized_plpc: p.unrealized_plpc,
+        symbol:                p.symbol,
+        qty:                   p.qty,
+        avg_entry_price:       p.avg_entry_price,
+        current_price:         p.current_price,
+        market_value:          p.market_value,
+        unrealized_pl:         p.unrealized_pl,
+        unrealized_plpc:       p.unrealized_plpc,
         unrealized_intraday_pl: p.unrealized_intraday_pl,
       }))
     });

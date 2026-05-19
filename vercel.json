@@ -2,5 +2,20 @@
   "env": {
     "ALPACA_KEY": "PK5DJHERTFEUINK3DIB5GYE2B5",
     "ALPACA_SECRET": "4dTbDVAdjnEaZKnrGtX2bsyK3pzypMALwNDTuQcpbfqd"
-  }
+  },
+  "headers": [
+    {
+      "source": "/",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
+        { "key": "Pragma", "value": "no-cache" }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+      ]
+    }
+  ]
 }
