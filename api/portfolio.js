@@ -23,12 +23,13 @@ function alpacaRequest(path) {
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate');
+  res.setHeader('Cache-Control', 'no-store');
 
   try {
-    const [account, positions] = await Promise.all([
+    const [account, positions, orders] = await Promise.all([
       alpacaRequest('/account'),
-      alpacaRequest('/positions')
+      alpacaRequest('/positions'),
+      alpacaRequest('/orders?status=open&limit=50'),
     ]);
 
     const equity      = parseFloat(account.equity);
@@ -36,41 +37,55 @@ module.exports = async (req, res) => {
     const cash        = parseFloat(account.cash);
     const startingCap = 100000;
 
-    // Total P&L since inception — always accurate
-    const totalPnl = equity - startingCap;
-
-    // Unrealized P&L — sum of all open positions
+    const totalPnl      = equity - startingCap;
     const unrealizedPnl = positions.reduce((sum, p) => sum + parseFloat(p.unrealized_pl || 0), 0);
+    const realizedPnl   = totalPnl - unrealizedPnl;
+    const dayChange     = equity - lastEquity;
 
-    // Realized P&L — accounting identity: Total = Realized + Unrealized
-    // This is always mathematically correct regardless of what trades happened
-    const realizedPnl = totalPnl - unrealizedPnl;
+    // Classify open orders — only top-level entries (not OCO legs)
+    const posSymbols    = new Set(positions.map(p => p.symbol));
+    const pendingBuys   = [];
+    const pendingCloses = [];
 
-    // Day change — mark vs previous close (includes position exits)
-    const dayChange = equity - lastEquity;
+    for (const o of orders) {
+      if (o.order_class === 'bracket' && o.side === 'buy') {
+        // Bracket entry leg — pending open position
+        pendingBuys.push({
+          symbol: o.symbol,
+          qty:    o.qty || o.notional,
+          type:   'PENDING OPEN',
+          order_class: o.order_class,
+        });
+      } else if (o.side === 'sell' && o.type === 'market' && !o.order_class) {
+        // Market sell with no class = intentional close (not a stop-loss)
+        pendingCloses.push({ symbol: o.symbol, qty: o.qty });
+      }
+      // Ignore: stop orders (type=stop), bracket legs (order_class=oco) — these are protection
+    }
 
     res.status(200).json({
       equity,
-      last_equity: lastEquity,
+      last_equity:     lastEquity,
       cash,
       starting_capital: startingCap,
-
-      // P&L breakdown — always accurate
-      total_pnl:      totalPnl,       // inception return
-      realized_pnl:   realizedPnl,    // crystallized gains (closed trades)
-      unrealized_pnl: unrealizedPnl,  // open book mark-to-market
-      day_change:     dayChange,       // vs previous close (includes exits)
+      total_pnl:       totalPnl,
+      realized_pnl:    realizedPnl,
+      unrealized_pnl:  unrealizedPnl,
+      day_change:      dayChange,
 
       positions: positions.map(p => ({
-        symbol:                p.symbol,
-        qty:                   p.qty,
-        avg_entry_price:       p.avg_entry_price,
-        current_price:         p.current_price,
-        market_value:          p.market_value,
-        unrealized_pl:         p.unrealized_pl,
-        unrealized_plpc:       p.unrealized_plpc,
-        unrealized_intraday_pl: p.unrealized_intraday_pl,
-      }))
+        symbol:                  p.symbol,
+        qty:                     p.qty,
+        avg_entry_price:         p.avg_entry_price,
+        current_price:           p.current_price,
+        market_value:            p.market_value,
+        unrealized_pl:           p.unrealized_pl,
+        unrealized_plpc:         p.unrealized_plpc,
+        unrealized_intraday_pl:  p.unrealized_intraday_pl,
+        closing: pendingCloses.some(c => c.symbol === p.symbol),
+      })),
+
+      pending_orders: pendingBuys,
     });
   } catch (e) {
     res.status(500).json({ error: e.message });
