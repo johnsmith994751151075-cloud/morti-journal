@@ -1,8 +1,4 @@
 {
-  "env": {
-    "ALPACA_KEY": "PK5DJHERTFEUINK3DIB5GYE2B5",
-    "ALPACA_SECRET": "4dTbDVAdjnEaZKnrGtX2bsyK3pzypMALwNDTuQcpbfqd"
-  },
   "headers": [
     {
       "source": "/",
