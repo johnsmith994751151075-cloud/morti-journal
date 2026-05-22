@@ -29,6 +29,7 @@ module.exports = async (req, res) => {
       '/v2/account/portfolio/history?period=1M&timeframe=1D&extended_hours=false',
       alpacaHeaders
     );
+    if (ph.message || ph.code) throw new Error(`Alpaca auth error: ${ph.message || ph.code}`);
 
     // Benchmarks from Alpaca data API
     const today = new Date().toISOString().split('T')[0];

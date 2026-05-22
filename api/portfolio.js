@@ -26,11 +26,16 @@ module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
 
   try {
-    const [account, positions, orders] = await Promise.all([
+    const [account, positionsRaw, ordersRaw] = await Promise.all([
       alpacaRequest('/account'),
       alpacaRequest('/positions'),
       alpacaRequest('/orders?status=open&limit=50'),
     ]);
+
+    // Guard: Alpaca returns an error object when credentials are wrong
+    if (account.message || account.code) throw new Error(`Alpaca auth error: ${account.message || account.code}`);
+    const positions = Array.isArray(positionsRaw) ? positionsRaw : [];
+    const orders    = Array.isArray(ordersRaw)    ? ordersRaw    : [];
 
     const equity      = parseFloat(account.equity);
     const lastEquity  = parseFloat(account.last_equity);
