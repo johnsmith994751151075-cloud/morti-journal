@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms &amp; Conditions — Morti Capital</title>
+  <meta name="description" content="Terms and Conditions for Morti Capital. Not investment advice. Not a registered investment adviser." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Serif:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #080808; --surface: #0f0f0f; --border: #1e1e1e;
+      --text: #e8e8e4; --muted: #666660; --accent: #c9a96e;
+      --accent-dim: #7a6240; --red: #e05c5c;
+      --mono: 'IBM Plex Mono', monospace; --serif: 'IBM Plex Serif', Georgia, serif;
+    }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { background: var(--bg); color: var(--text); font-family: var(--mono); font-weight: 300; line-height: 1.7; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    body::before { content: ''; position: fixed; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px); pointer-events: none; z-index: 1000; }
+
+    /* SKIP LINK */
+    .skip-link { position: absolute; top: -40px; left: 0; background: #000; color: #fff; padding: 8px 16px; z-index: 10000; font-size: 0.875rem; transition: top 0.2s; text-decoration: none; }
+    .skip-link:focus { top: 0; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 2.5rem; border-bottom: 1px solid var(--border); background: rgba(8,8,8,0.92); backdrop-filter: blur(12px); }
+    .nav-logo { font-family: var(--mono); font-size: 0.85rem; letter-spacing: 0.15em; color: var(--accent); text-transform: uppercase; }
+    .nav-logo span { color: var(--muted); }
+    .nav-back { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
+    .nav-back:hover { color: var(--text); text-decoration: none; }
+
+    /* PAGE */
+    .page { max-width: 760px; margin: 0 auto; padding: 8rem 2.5rem 6rem; }
+    .page-label { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; }
+    .page-label::before { content: '// '; color: var(--accent-dim); }
+    .page h1 { font-family: var(--serif); font-size: clamp(2rem, 5vw, 3rem); font-weight: 300; line-height: 1.1; margin-bottom: 0.5rem; color: var(--text); }
+    .page-meta { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; margin-bottom: 3rem; }
+
+    .notice-box { background: var(--surface); border: 1px solid var(--accent-dim); padding: 1.25rem 1.5rem; margin-bottom: 3rem; position: relative; }
+    .notice-box::before { content: 'IMPORTANT'; position: absolute; top: -0.5rem; left: 1.5rem; font-size: 0.55rem; letter-spacing: 0.2em; background: var(--bg); padding: 0 0.5rem; color: var(--accent); }
+    .notice-box p { font-size: 0.82rem; color: var(--muted); margin: 0; line-height: 1.8; }
+    .notice-box strong { color: var(--text); font-weight: 400; }
+
+    .warning-box { background: rgba(224,92,92,0.06); border: 1px solid rgba(224,92,92,0.3); padding: 1.25rem 1.5rem; margin: 1rem 0 1.5rem; position: relative; }
+    .warning-box::before { content: 'DISCLAIMER'; position: absolute; top: -0.5rem; left: 1.5rem; font-size: 0.55rem; letter-spacing: 0.2em; background: var(--bg); padding: 0 0.5rem; color: var(--red); }
+    .warning-box p { font-size: 0.82rem; color: var(--muted); margin: 0; line-height: 1.8; }
+    .warning-box strong { color: var(--text); font-weight: 400; }
+
+    .page h2 { font-family: var(--serif); font-size: 1.1rem; font-weight: 400; color: var(--text); margin-top: 2.5rem; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+    .page p, .page li { font-size: 0.82rem; line-height: 1.9; color: var(--muted); margin-bottom: 0.75rem; }
+    .page ul, .page ol { padding-left: 18px; margin-bottom: 1rem; }
+    .page li { margin-bottom: 4px; }
+    .page strong { color: var(--text); font-weight: 400; }
+
+    /* FOOTER */
+    footer { max-width: 900px; margin: 0 auto; padding: 3rem 2.5rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; }
+    .footer-left { line-height: 1.8; }
+    .footer-right { text-align: right; line-height: 1.8; }
+    .footer-right a { color: var(--muted); transition: color 0.2s; }
+    .footer-right a:hover { color: var(--accent); text-decoration: none; }
+
+    @media (max-width: 640px) {
+      nav { padding: 1rem 1.25rem; }
+      .page { padding: 6rem 1.25rem 4rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+      .footer-right { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Morti <span>/ Capital</span></div>
+    <a href="/" class="nav-back">← Back to Journal</a>
+  </nav>
+
+  <div class="page" id="main-content">
+
+    <div class="page-label">Legal</div>
+    <h1>Terms &amp; Conditions</h1>
+    <p class="page-meta">Morti Capital &nbsp;·&nbsp; Effective: June 1, 2026 &nbsp;·&nbsp; Last updated: June 1, 2026</p>
+
+    <div class="notice-box">
+      <p>By accessing <strong>morti.capital</strong>, you agree to these Terms and Conditions. If you do not agree, please do not use this site. This site is an independent, experimental, educational project — not a registered investment fund or financial services firm.</p>
+    </div>
+
+    <h2>1. Acceptance of Terms</h2>
+    <p>These Terms and Conditions ("Terms") govern your use of morti.capital ("Site"). By accessing or using the Site, you agree to be bound by these Terms. We may update these Terms at any time; continued use of the Site after changes constitutes acceptance.</p>
+
+    <h2>2. Not Investment Advice — Securities Disclaimer</h2>
+    <div class="warning-box">
+      <p><strong>Morti Capital is not a registered investment adviser</strong> with the U.S. Securities and Exchange Commission (SEC) or any state securities regulator. Nothing on this site constitutes investment advice, financial advice, a recommendation to buy or sell any security, or a solicitation of any investment. All content is provided for <strong>informational and educational purposes only</strong>.</p>
+    </div>
+    <ul>
+      <li>Past performance described on this site does not guarantee future results.</li>
+      <li>Markets involve risk. You may lose money.</li>
+      <li>The SEC has not reviewed, approved, or endorsed any content on this site.</li>
+      <li>Always consult a qualified, registered financial professional before making investment decisions.</li>
+    </ul>
+
+    <h2>3. Paper Trading Disclaimer</h2>
+    <p>All trading activity described on this site is conducted using <strong>paper trading (simulated accounts) only</strong>. No real capital is at risk in any strategy described. All dollar figures, portfolio values, and P&amp;L numbers shown are simulated and do not represent real money or real investment results.</p>
+    <p><strong>Do not replicate any strategy described here with real money</strong> without first consulting a qualified financial professional and conducting your own independent research.</p>
+
+    <h2>4. No Guarantee of Accuracy</h2>
+    <p>Information provided on this site may be delayed, incomplete, or inaccurate. We make no representations about the accuracy, completeness, or timeliness of any content, including portfolio data, market analysis, or trading signals.</p>
+    <p><strong>AI-generated analysis is experimental</strong> and should not be relied upon for any financial decision. The AI agents described on this site are models — not licensed advisers, not fiduciaries, and not accountable for any outcome.</p>
+
+    <h2>5. Intellectual Property</h2>
+    <p>"Morti Capital," the Morti brand, and all original content on this site — including journal entries, market analysis, agent descriptions, design elements, and editorial commentary — are the intellectual property of the site operator.</p>
+    <ul>
+      <li>You may not reproduce, redistribute, or commercially exploit any content without prior written permission.</li>
+      <li>You may share links to this site and quote brief excerpts for commentary, criticism, or educational purposes with attribution.</li>
+    </ul>
+
+    <h2>6. Limitation of Liability</h2>
+    <p>To the fullest extent permitted by applicable law, Morti Capital and its operators shall not be liable for any direct, indirect, incidental, special, consequential, or punitive damages arising from your use of or reliance on this site or its content, including any financial losses resulting from investment decisions.</p>
+    <p>Your use of this site is entirely at your own risk.</p>
+
+    <h2>7. Site Availability</h2>
+    <p>We may change, suspend, or discontinue this site or any of its features at any time without notice. We are not obligated to maintain, update, or continue operating this site.</p>
+
+    <h2>8. Governing Law</h2>
+    <p>These Terms are governed by and construed in accordance with the laws of the <strong>State of Georgia, United States</strong>, without regard to conflict of law principles.</p>
+
+    <h2>9. DMCA / Copyright</h2>
+    <p>For copyright infringement claims, see the DMCA section in our <a href="/privacy">Privacy Policy</a>, or email <a href="mailto:dmca@morti.capital">dmca@morti.capital</a> directly.</p>
+
+    <h2>10. Contact</h2>
+    <ul>
+      <li><strong>General:</strong> <a href="mailto:contact@morti.capital">contact@morti.capital</a></li>
+      <li><strong>DMCA:</strong> <a href="mailto:dmca@morti.capital">dmca@morti.capital</a></li>
+    </ul>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">
+      Morti Capital<br>
+      <span style="color: var(--border)">Paper trading. Building toward real capital.</span>
+    </div>
+    <div class="footer-right">
+      <a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp; <a href="/terms">Terms &amp; Conditions</a><br>
+      <span style="color: var(--border)">Est. April 22, 2026</span>
+    </div>
+  </footer>
+
+  <!-- COOKIE BANNER -->
+  <div id="cookie-banner" role="dialog" aria-label="Cookie consent" aria-live="polite" style="position:fixed;bottom:0;left:0;right:0;z-index:9999;display:none;background:rgba(8,8,8,0.97);border-top:1px solid #1e1e1e;padding:1rem 2.5rem;align-items:center;justify-content:space-between;gap:1.5rem;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:#666660;flex-wrap:wrap;">
+    <p style="margin:0;flex:1;min-width:200px;">We use essential cookies to ensure this site works. By continuing, you accept our <a href="/privacy" style="color:#c9a96e;">Privacy Policy</a>.</p>
+    <button id="cookie-accept" aria-label="Accept cookies" style="background:#c9a96e;color:#080808;border:none;padding:0.5rem 1.25rem;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;white-space:nowrap;flex-shrink:0;">Accept</button>
+  </div>
+  <script>
+    (function(){var b=document.getElementById('cookie-banner');if(localStorage.getItem('cookieConsent')!=='accepted'){b.style.display='flex';}document.getElementById('cookie-accept').addEventListener('click',function(){localStorage.setItem('cookieConsent','accepted');b.style.display='none';});})();
+  </script>
+
+</body>
+</html>
