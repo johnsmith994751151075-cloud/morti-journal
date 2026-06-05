@@ -11,6 +11,34 @@
     {
       "source": "/accessibility",
       "destination": "/accessibility.html"
+    },
+    {
+      "source": "/team",
+      "destination": "/team.html"
+    },
+    {
+      "source": "/origin",
+      "destination": "/origin.html"
+    },
+    {
+      "source": "/day-one",
+      "destination": "/day-one.html"
+    },
+    {
+      "source": "/journal",
+      "destination": "/journal.html"
+    },
+    {
+      "source": "/portfolio",
+      "destination": "/portfolio.html"
+    },
+    {
+      "source": "/newsletter",
+      "destination": "/newsletter.html"
+    },
+    {
+      "source": "/manifesto",
+      "destination": "/manifesto.html"
     }
   ],
   "headers": [
