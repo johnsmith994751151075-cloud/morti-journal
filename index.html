@@ -556,7 +556,17 @@
         document.getElementById('positions-count').textContent =
           ((data.positions ? data.positions.length : 0) + (data.pending_orders ? data.pending_orders.length : 0)) + ' positions (incl. queued)';
 
-    // ── Equity Chart ─────────────────────────────────────────────────────────
+      } catch (e) {
+        console.error('Portfolio fetch error:', e);
+        document.getElementById('equity-val').textContent = '—';
+        document.getElementById('positions-body').innerHTML =
+          '<tr><td colspan="9" class="loading">Error: ' + (e.message || e) + '</td></tr>';
+      }
+    }
+
+    fetchPortfolio();
+    setInterval(fetchPortfolio, 60000);
+
     (function initChart() {
       const script = document.createElement('script');
       script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js';
