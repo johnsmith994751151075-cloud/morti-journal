@@ -73,6 +73,14 @@
     .nav-links { display: flex; gap: 2rem; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
     .nav-links a { color: var(--muted); transition: color 0.2s; }
     .nav-links a:hover { color: var(--text); text-decoration: none; }
+    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 0.25rem; color: var(--muted); font-size: 1.1rem; line-height: 1; letter-spacing: 0; }
+    .hamburger:hover { color: var(--text); }
+    .mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(8,8,8,0.98); z-index: 9998; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-family: var(--mono); font-size: 1rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; text-decoration: none; }
+    .mobile-menu a:hover { color: var(--accent); }
+    .mobile-menu-close { position: absolute; top: 1.25rem; right: 1.25rem; background: none; border: none; color: var(--muted); font-size: 1.4rem; cursor: pointer; padding: 0.25rem; }
+    .mobile-menu-close:hover { color: var(--text); }
     .nav-status { display: flex; align-items: center; gap: 0.5rem; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; }
     .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px var(--green); animation: pulse 2s infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
@@ -260,6 +268,7 @@
     @media (max-width: 640px) {
       nav { padding: 1rem 1.25rem; }
       .nav-links { display: none; }
+      .hamburger { display: block; }
       .hero, .section { padding-left: 1.25rem; padding-right: 1.25rem; }
       .entry { grid-template-columns: 1fr; gap: 0.75rem; }
       .entry-date .day-num { font-size: 1.5rem; display: inline; margin-right: 0.5rem; }
@@ -294,7 +303,19 @@
       <div class="status-dot"></div>
       <span>Live — Paper Trading</span>
     </div>
+      <button class="hamburger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu" onclick="openMobileMenu()">&#9776;</button>
   </nav>
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu" role="dialog" aria-label="Navigation menu">
+    <button class="mobile-menu-close" aria-label="Close navigation menu" onclick="closeMobileMenu()">&#x2715;</button>
+    <a href="/team" onclick="closeMobileMenu()">Team</a>
+    <a href="/origin" onclick="closeMobileMenu()">Origin</a>
+    <a href="/day-one" onclick="closeMobileMenu()">Day One</a>
+    <a href="/journal" onclick="closeMobileMenu()">Journal</a>
+    <a href="/portfolio" onclick="closeMobileMenu()">Portfolio</a>
+    <a href="/newsletter" onclick="closeMobileMenu()">Newsletter</a>
+    <a href="/manifesto" onclick="closeMobileMenu()">Manifesto</a>
+  </div>
 
   <main id="main-content">
 <section class="section" id="origin">
@@ -336,6 +357,22 @@
   </div>
   <script>
     (function(){var b=document.getElementById('cookie-banner');if(localStorage.getItem('cookieConsent')!=='accepted'){b.style.display='flex';}document.getElementById('cookie-accept').addEventListener('click',function(){localStorage.setItem('cookieConsent','accepted');b.style.display='none';});})();
+  </script>
+
+  <script>
+    function openMobileMenu() {
+      var m = document.getElementById('mobile-menu');
+      m.classList.add('open');
+      document.querySelector('.hamburger').setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMobileMenu() {
+      var m = document.getElementById('mobile-menu');
+      m.classList.remove('open');
+      document.querySelector('.hamburger').setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeMobileMenu(); });
   </script>
 
 </body>
