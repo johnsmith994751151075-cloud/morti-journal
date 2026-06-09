@@ -330,6 +330,26 @@
       <strong>No office. No prior capital.</strong> Just a team that doesn't sleep — models, code, and a Raspberry Pi humming somewhere in the dark. This is the unedited log — every trade, every failure, every decision. Starting from zero. Building toward something that has never existed before.
     </p>
     <div class="scroll-hint">Read the log</div>
+
+    <!-- LIVE POSITIONS STRIP -->
+    <div id="positions-strip" style="margin-top: 3rem; border-top: 1px solid var(--border); padding-top: 2rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+        <div style="font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent);">
+          // Active Positions
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.4rem; font-size: 0.6rem; color: var(--muted); letter-spacing: 0.08em;">
+          <div style="width: 5px; height: 5px; border-radius: 50%; background: var(--green); box-shadow: 0 0 4px var(--green); animation: pulse 2s infinite;"></div>
+          <span id="strip-equity">Live &mdash; Paper Trading</span>
+        </div>
+      </div>
+      <div id="strip-positions" style="display: flex; gap: 1px; flex-wrap: wrap; background: var(--border);">
+        <div style="padding: 1rem 1.25rem; background: var(--surface); font-size: 0.75rem; color: var(--muted); font-style: italic; flex: 1;">Loading positions...</div>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+        <div id="strip-summary" style="font-size: 0.65rem; color: var(--muted); letter-spacing: 0.05em;"></div>
+        <a href="/portfolio" style="font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-dim); transition: color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--accent-dim)'">Full Portfolio &rarr;</a>
+      </div>
+    </div>
   </div>
 
 
@@ -586,8 +606,144 @@
       }
     }
 
-    fetchPortfolio();
-    setInterval(fetchPortfolio, 60000);
+    // ── Hero positions strip ────────────────────────────────────────────────
+    function renderStrip(data) {
+      const equity = parseFloat(data.equity);
+      const dayChange = parseFloat(data.day_change);
+      const lastEquity = parseFloat(data.last_equity);
+      const dayPct = lastEquity ? ((dayChange / lastEquity) * 100).toFixed(2) : '0.00';
+      const cls = dayChange >= 0 ? 'var(--green)' : 'var(--red)';
+
+      document.getElementById('strip-equity').innerHTML =
+        'Portfolio: <strong style="color:var(--text)">$' + equity.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}) + '</strong>' +
+        '&nbsp;&nbsp;<span style="color:' + cls + '">' + (dayChange >= 0 ? '+' : '') + dayPct + '% today</span>';
+
+      const positions = data.positions || [];
+      const cash = parseFloat(data.cash || 0);
+      const strip = document.getElementById('strip-positions');
+
+      if (positions.length === 0) {
+        strip.innerHTML = '<div style="padding: 1rem 1.25rem; background: var(--surface); font-size: 0.8rem; color: var(--muted); flex: 1;">100% cash &mdash; no open positions</div>';
+      } else {
+        strip.innerHTML = positions.map(p => {
+          const pl = parseFloat(p.unrealized_pl);
+          const plPct = (parseFloat(p.unrealized_plpc) * 100).toFixed(1);
+          const dayPl = parseFloat(p.unrealized_intraday_pl || 0);
+          const mktVal = parseFloat(p.market_value);
+          const portPct = (mktVal / equity * 100).toFixed(1);
+          const current = parseFloat(p.current_price).toFixed(2);
+          const entry = parseFloat(p.avg_entry_price).toFixed(2);
+          const plColor = pl >= 0 ? 'var(--green)' : 'var(--red)';
+          const dayColor = dayPl >= 0 ? 'var(--green)' : 'var(--red)';
+          return '<div style="padding: 1rem 1.25rem; background: var(--surface); flex: 1; min-width: 130px;">' +
+            '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">' +
+              '<span style="font-size:0.9rem; font-weight:400; color:var(--text); letter-spacing:0.05em;">' + p.symbol + '</span>' +
+              '<span style="font-size:0.6rem; color:var(--muted);">' + portPct + '%</span>' +
+            '</div>' +
+            '<div style="font-size:0.7rem; color:var(--muted); margin-bottom:0.2rem;">$' + current + ' <span style="font-size:0.6rem;">(entry $' + entry + ')</span></div>' +
+            '<div style="font-size:0.75rem; font-weight:400; color:' + plColor + ';">' + (pl >= 0 ? '+' : '') + '$' + Math.abs(pl).toFixed(0) + ' (' + (pl >= 0 ? '+' : '') + plPct + '%)</div>' +
+            '<div style="font-size:0.65rem; color:' + dayColor + '; margin-top:0.1rem;">Today: ' + (dayPl >= 0 ? '+' : '') + '$' + Math.abs(dayPl).toFixed(0) + '</div>' +
+          '</div>';
+        }).join('');
+      }
+
+      const cashPct = (cash / equity * 100).toFixed(1);
+      const totalPnl = equity - 100000;
+      const totalPct = (totalPnl / 100000 * 100).toFixed(1);
+      const totalColor = totalPnl >= 0 ? 'var(--green)' : 'var(--red)';
+      document.getElementById('strip-summary').innerHTML =
+        'Cash: $' + cash.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}) + ' (' + cashPct + '%)' +
+        '&nbsp;&nbsp;&bull;&nbsp;&nbsp;' +
+        'Total return: <span style="color:' + totalColor + '">' + (totalPnl >= 0 ? '+' : '') + '$' + Math.abs(totalPnl).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}) + ' (' + (totalPnl >= 0 ? '+' : '') + totalPct + '%)</span>' +
+        '&nbsp;&nbsp;&bull;&nbsp;&nbsp;Updated: ' + new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', timeZoneName: 'short'});
+    }
+
+    async function fetchPortfolioAndStrip() {
+      try {
+        const res = await fetch('/api/portfolio');
+        if (!res.ok) throw new Error('API error');
+        const data = await res.json();
+        renderStrip(data);
+        // also update the main portfolio block
+        fetchPortfolioFromData(data);
+      } catch (e) {
+        document.getElementById('strip-positions').innerHTML =
+          '<div style="padding: 1rem; background: var(--surface); font-size: 0.75rem; color: var(--muted); flex: 1;">Position data unavailable</div>';
+        document.getElementById('strip-equity').textContent = 'Live — Paper Trading';
+        fetchPortfolio();
+      }
+    }
+
+    function fetchPortfolioFromData(data) {
+      try {
+        const equity        = parseFloat(data.equity);
+        const lastEquity    = parseFloat(data.last_equity);
+        const cash          = parseFloat(data.cash || 0);
+        const totalPnl      = parseFloat(data.total_pnl);
+        const realizedPnl   = parseFloat(data.realized_pnl);
+        const unrealizedPnl = parseFloat(data.unrealized_pnl);
+        const dayChange     = parseFloat(data.day_change);
+        const totalPct      = (totalPnl / 100000) * 100;
+        const dayPct        = (dayChange / lastEquity) * 100;
+
+        document.getElementById('equity-val').textContent = equity.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+        const totalPnlEl = document.getElementById('total-pnl-val');
+        totalPnlEl.textContent = (totalPnl >= 0 ? '+' : '') + '$' + Math.abs(totalPnl).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        totalPnlEl.className = 'metric-val ' + (totalPnl >= 0 ? 'up' : 'down');
+        document.getElementById('total-pnl-pct').textContent = (totalPnl >= 0 ? '+' : '') + totalPct.toFixed(2) + '% vs $100K start';
+
+        const realizedEl = document.getElementById('realized-pnl-val');
+        realizedEl.textContent = (realizedPnl >= 0 ? '+' : '') + '$' + Math.abs(realizedPnl).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        realizedEl.className = 'metric-val ' + (realizedPnl >= 0 ? 'up' : 'down');
+
+        const unrealizedEl = document.getElementById('unrealized-pnl-val');
+        unrealizedEl.textContent = (unrealizedPnl >= 0 ? '+' : '') + '$' + Math.abs(unrealizedPnl).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        unrealizedEl.className = 'metric-val ' + (unrealizedPnl >= 0 ? 'up' : 'down');
+        document.getElementById('positions-count').textContent = (data.positions ? data.positions.length : 0) + ' open positions';
+
+        const dayPnlEl = document.getElementById('day-pnl-val');
+        dayPnlEl.textContent = (dayChange >= 0 ? '+' : '') + '$' + Math.abs(dayChange).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        dayPnlEl.className = 'metric-val ' + (dayChange >= 0 ? 'up' : 'down');
+        document.getElementById('day-pnl-pct').textContent = (dayChange >= 0 ? '+' : '') + dayPct.toFixed(2) + '%';
+
+        document.getElementById('updated-time').textContent = 'Updated: ' + new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', timeZoneName: 'short'});
+
+        const CLOSING_BADGE = '<span style="display:inline-block;font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.1rem 0.35rem;border-radius:2px;vertical-align:middle;margin-left:0.4rem;color:#e05c5c;background:rgba(224,92,92,0.12)">CLOSING</span>';
+        const QUEUED_BADGE  = '<span style="display:inline-block;font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.1rem 0.35rem;border-radius:2px;vertical-align:middle;margin-left:0.4rem;color:#4caf7d;background:rgba(76,175,125,0.12)">QUEUED</span>';
+        const tbody = document.getElementById('positions-body');
+        const cashPct = (cash / equity * 100).toFixed(1);
+        let posRows = '';
+        if (data.positions && data.positions.length > 0) {
+          posRows = data.positions.map(p => {
+            const pl = parseFloat(p.unrealized_pl);
+            const plPct = (parseFloat(p.unrealized_plpc) * 100).toFixed(1);
+            const dayPl = parseFloat(p.unrealized_intraday_pl || 0);
+            const mktVal = parseFloat(p.market_value);
+            const portPct = (mktVal / equity * 100).toFixed(1);
+            const qty = parseFloat(p.qty).toFixed(2);
+            const entry = parseFloat(p.avg_entry_price).toFixed(2);
+            const current = parseFloat(p.current_price).toFixed(2);
+            const cls = pl >= 0 ? 'up' : 'down';
+            const dayCls = dayPl >= 0 ? 'up' : 'down';
+            const badge = p.closing ? CLOSING_BADGE : '';
+            const rowStyle = p.closing ? ' style="opacity:0.6"' : '';
+            return '<tr' + rowStyle + '><td>' + p.symbol + badge + '</td><td>' + qty + '</td><td style="color:var(--muted)">$' + entry + '</td><td>$' + current + '</td><td>$' + mktVal.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}) + '</td><td style="color:var(--muted)">' + portPct + '%</td><td class="' + cls + '">' + (pl >= 0 ? '+' : '') + '$' + Math.abs(pl).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td class="' + cls + '">' + (pl >= 0 ? '+' : '') + plPct + '%</td><td class="' + dayCls + '">' + (dayPl >= 0 ? '+' : '') + '$' + Math.abs(dayPl).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td></tr>';
+          }).join('');
+        }
+        if (data.pending_orders && data.pending_orders.length > 0) {
+          posRows += data.pending_orders.map(o => '<tr style="opacity:0.65"><td>' + o.symbol + QUEUED_BADGE + '</td><td>' + parseFloat(o.qty || 0).toFixed(0) + '</td><td style="color:var(--muted)">mkt</td><td style="color:var(--muted)">—</td><td style="color:var(--muted)">pending</td><td style="color:var(--muted)">—</td><td style="color:var(--muted)">—</td><td style="color:var(--muted)">—</td><td style="color:var(--muted)">—</td></tr>').join('');
+        }
+        const cashRow = '<tr style="opacity:0.5"><td>CASH</td><td style="color:var(--muted)">—</td><td style="color:var(--muted)">—</td><td style="color:var(--muted)">—</td><td>$' + cash.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}) + '</td><td style="color:var(--muted)">' + cashPct + '%</td><td style="color:var(--muted)">—</td><td style="color:var(--muted)">—</td><td style="color:var(--muted)">—</td></tr>';
+        tbody.innerHTML = posRows ? posRows + cashRow : '<tr style="opacity:0.5"><td>CASH</td><td colspan="8" style="color:var(--muted);text-align:left">$' + cash.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}) + ' &middot; ' + cashPct + '% of portfolio</td></tr>';
+        document.getElementById('positions-count').textContent = ((data.positions ? data.positions.length : 0) + (data.pending_orders ? data.pending_orders.length : 0)) + ' positions (incl. queued)';
+      } catch (e) {
+        console.error('Portfolio render error:', e);
+      }
+    }
+
+    fetchPortfolioAndStrip();
+    setInterval(fetchPortfolioAndStrip, 60000);
 
     (function initChart() {
       const script = document.createElement('script');
